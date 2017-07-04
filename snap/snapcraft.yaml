@@ -1,0 +1,47 @@
+name: mattermost-desktop
+version: 3.7.0
+summary: Open source, private cloud Slack-alternative
+description: |
+ Workplace messaging for web, PCs and phones. MIT-licensed. Hundreds of
+ contributors. 11 languages. Secure, configurable, and scalable from
+ teams to enterprise.
+
+grade: stable
+confinement: strict
+
+parts:
+  mattermost-desktop:
+    plugin: dump
+    source: https://releases.mattermost.com/desktop/3.7.0/mattermost-desktop-3.7.0-linux-amd64.deb
+    source-type: deb
+    # Correct path to icon.
+    prepare: |
+      sed -i 's|Icon=mattermost-desktop|Icon=usr/share/icons/hicolor/256x256/apps/mattermost-desktop\.png|' usr/share/applications/mattermost-desktop.desktop
+    after:
+      - desktop-gtk2
+    stage-packages:
+      - gconf2
+      - libasound2
+      - libnotify4
+      - libnspr4
+      - libnss3
+      - libpulse0
+      - libxss1
+      - libxtst6
+
+apps:
+  mattermost-desktop:
+    # Correct the TMPDIR path for Chromium Framework/Electron to
+    # ensure libappindicator has readable resources.
+    command: env TMPDIR=$XDG_RUNTIME_DIR PATH=/usr/local/bin:${PATH} ${SNAP}/bin/desktop-launch $SNAP/opt/Mattermost/mattermost-desktop
+    desktop: usr/share/applications/mattermost-desktop.desktop
+    plugs:
+      - browser-support
+      - gsettings
+      - home
+      - mount-observe
+      - network
+      - network-bind      
+      - pulseaudio
+      - unity7
+      - x11
