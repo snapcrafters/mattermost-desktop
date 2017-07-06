@@ -6,11 +6,9 @@
 
 <p align="center"><b>This is the snap for Mattermost Desktop</b>, <i>"an open source, private cloud Slack-alternative"</i>. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.</p>
 
-<!--
 <p align="center">
 <a href="https://build.snapcraft.io/user/snapcrafters/mattermost-desktop"><img src="https://build.snapcraft.io/badge/snapcrafters/mattermost-desktop.svg" alt="Snap Status"></a>
 </p>
--->
 
 ## Install
 
