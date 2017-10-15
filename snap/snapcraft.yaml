@@ -1,5 +1,5 @@
 name: mattermost-desktop
-version: 3.7.0
+version: 3.7.1
 summary: Open source, private cloud Slack-alternative
 description: |
  Workplace messaging for web, PCs and phones. MIT-licensed. Hundreds of
@@ -12,7 +12,7 @@ confinement: strict
 parts:
   mattermost-desktop:
     plugin: dump
-    source: https://releases.mattermost.com/desktop/3.7.0/mattermost-desktop-3.7.0-linux-amd64.deb
+    source: https://releases.mattermost.com/desktop/3.7.1/mattermost-desktop-3.7.1-linux-amd64.deb
     source-type: deb
     # Correct path to icon.
     prepare: |
