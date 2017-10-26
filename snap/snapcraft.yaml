@@ -2,13 +2,26 @@ name: mattermost-desktop
 version: 3.7.1
 summary: Open source, private cloud Slack-alternative
 description: |
- Workplace messaging for web, PCs and phones. MIT-licensed. Hundreds of
- contributors. 11 languages. Secure, configurable, and scalable from
- teams to enterprise.
+  Mattermost is secure workplace messaging from behind your firewall.
 
+  - Discuss topics in private groups, one-to-one or team-wide
+  - Easily share and view image files
+  - Connect in-house systems with webhooks and Slack-compatible integrations
+
+  To use this app, you need a URL for a Mattermost server.
+
+  -------
+
+  Host your own server: https://about.mattermost.com/download
+
+  Terms of Service: http://about.mattermost.com/terms/
+
+  Contribute to the project: https://github.com/mattermost/desktop
 grade: stable
 confinement: strict
-
+# Point the following path to the original icons directory if/when this gets merged
+# with the mattermost desktop repo.
+icon: mattermost-desktop.png
 parts:
   mattermost-desktop:
     plugin: dump
@@ -16,7 +29,7 @@ parts:
     source-type: deb
     # Correct path to icon.
     prepare: |
-      sed -i 's|Icon=mattermost-desktop|Icon=usr/share/icons/hicolor/256x256/apps/mattermost-desktop\.png|' usr/share/applications/mattermost-desktop.desktop
+      sed -i 's|Icon=mattermost-desktop|Icon=\${SNAP}/meta/gui/icon.png|' usr/share/applications/mattermost-desktop.desktop
     after:
       - desktop-gtk2
     stage-packages:
@@ -45,3 +58,4 @@ apps:
       - pulseaudio
       - unity7
       - x11
+
