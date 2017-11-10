@@ -12,7 +12,6 @@
 
 ## Install
 
-    sudo apt install snapd-xdg-open
     sudo snap install mattermost-desktop
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
@@ -39,7 +38,7 @@ Snapcrafters ([join us](https://forum.snapcraft.io/t/join-snapcrafters/1325)) ar
   - [x] Update the install instructions in this `README.md`
   - [x] Post a call for testing on the [Snapcraft Forum](https://forum.snapcraft.io) - [link](https://insights.ubuntu.com/2017/06/15/gitter-and-mattermost-two-desktop-apps-for-your-future-chat-platform/)
   - [x] Request your GitHub repository is forked to the Snapcrafters organisation and configured for automated builds
-  - [ ] Add the provided Snapcraft build badge to this `README.md`
+  - [x] Add the provided Snapcraft build badge to this `README.md`
   - [x] Publish the snap in the Snap store stable channel
   - [x] Update the install instructions in this `README.md`
   - [x] Post an announcement in the [Snapcraft Forum](https://forum.snapcraft.io) - [link](https://insights.ubuntu.com/2017/06/15/gitter-and-mattermost-two-desktop-apps-for-your-future-chat-platform/)
@@ -55,9 +54,10 @@ If you have any questions, [post in the Snapcraft forum](https://forum.snapcraft
 
 ## The Snapcrafters
 
-| [![Martin Wimpress](http://gravatar.com/avatar/ce95823a37d9ffa2e65a31cc60a2c42a/?s=128)](https://github.com/flexiondotorg/) |
-| :---: |
-| [Martin Wimpress](https://github.com/flexiondotorg/) |
+| [![Martin Wimpress](http://gravatar.com/avatar/ce95823a37d9ffa2e65a31cc60a2c42a/?s=128)](https://github.com/flexiondotorg/) |  [![Merlijn Sebrechts](https://s.gravatar.com/avatar/b6d238602f432bd0981d6ac45747d11b/?s=128)](https://github.com/galgalesh/) |
+| :---: | :---: |
+| [Martin Wimpress](https://github.com/flexiondotorg/) | [Merlijn Sebrechts](https://github.com/galgalesh/)|
+
 
 <!--
 ## Upstream
