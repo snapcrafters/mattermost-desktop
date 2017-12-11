@@ -44,12 +44,16 @@ parts:
 
 apps:
   mattermost-desktop:
-    # Correct the TMPDIR path for Chromium Framework/Electron to
-    # ensure libappindicator has readable resources.
-    command: env TMPDIR=$XDG_RUNTIME_DIR PATH=/usr/local/bin:${PATH} ${SNAP}/bin/desktop-launch $SNAP/opt/Mattermost/mattermost-desktop
+    command: bin/desktop-launch $SNAP/opt/Mattermost/mattermost-desktop
     desktop: usr/share/applications/mattermost-desktop.desktop
+    # Correct the TMPDIR path for Chromium Framework/Electron to ensure
+    # libappindicator has readable resources.
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR
     plugs:
       - browser-support
+      - desktop
+      - desktop-legacy
       - gsettings
       - home
       - mount-observe
@@ -57,5 +61,5 @@ apps:
       - network-bind      
       - pulseaudio
       - unity7
-      - x11
+      - wayland
 
