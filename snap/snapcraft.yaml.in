@@ -51,12 +51,14 @@ apps:
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
     plugs:
+      - bluez
       - browser-support
       - gsettings
       - home
       - mount-observe
       - network
-      - network-bind      
+      - network-bind
+      - opengl
       - pulseaudio
       - unity7
       - wayland
