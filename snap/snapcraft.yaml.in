@@ -33,8 +33,8 @@ parts:
     after:
       - desktop-gtk2
     stage-packages:
-      - gconf2
       - libasound2
+      - libgconf2-4
       - libnotify4
       - libnspr4
       - libnss3
@@ -52,8 +52,6 @@ apps:
       TMPDIR: $XDG_RUNTIME_DIR
     plugs:
       - browser-support
-      - desktop
-      - desktop-legacy
       - gsettings
       - home
       - mount-observe
@@ -62,4 +60,4 @@ apps:
       - pulseaudio
       - unity7
       - wayland
-
+      - x11
