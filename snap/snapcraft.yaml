@@ -28,8 +28,11 @@ parts:
     source: https://releases.mattermost.com/desktop/3.7.1/mattermost-desktop-3.7.1-linux-amd64.deb
     source-type: deb
     # Correct path to icon.
+    build-packages:
+      - execstack
     prepare: |
       sed -i 's|Icon=mattermost-desktop|Icon=\${SNAP}/meta/gui/icon.png|' usr/share/applications/mattermost-desktop.desktop
+      execstack --clear-execstack opt/Mattermost/mattermost-desktop
     after:
       - desktop-gtk2
     stage-packages:
