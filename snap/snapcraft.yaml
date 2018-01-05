@@ -63,7 +63,14 @@ apps:
       - network-bind
       - opengl
       - pulseaudio
+      # Get access to notifications, systray etc..
       - unity7
+      - desktop-legacy
       - wayland
       - x11
+      # To get access to the system fonts
       - desktop
+      # Enable access to USB flash drives, external hard drives etc..
+      # Sadly, this interface isn't auto-connected by default. You can enable
+      # it by running `sudo snap connect mattermost-desktop:removable-media`
+      - removable-media
