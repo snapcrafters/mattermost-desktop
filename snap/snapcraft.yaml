@@ -26,7 +26,7 @@ parts:
     # Correct path to icon.
     override-build: |
       snapcraftctl build
-      sed -i 's|Icon=mattermost-desktop|Icon=\${SNAP}/meta/gui/icon.png|' usr/share/applications/mattermost-desktop.desktop
+      sed -i 's|Icon=mattermost-desktop|Icon=\${SNAP}/meta/gui/icon.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     after:
       - desktop-gtk2
     stage-packages:
