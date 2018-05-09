@@ -12,7 +12,8 @@
 
 ## Install
 
-    sudo snap install mattermost-desktop
+    snap install mattermost-desktop
+    sudo snap connect mattermost-desktop:removable-media
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
@@ -43,8 +44,8 @@ Snapcrafters ([join us](https://forum.snapcraft.io/t/join-snapcrafters/1325)) ar
   - [x] Update the install instructions in this `README.md`
   - [x] Post an announcement in the [Snapcraft Forum](https://forum.snapcraft.io) - [link](https://insights.ubuntu.com/2017/06/15/gitter-and-mattermost-two-desktop-apps-for-your-future-chat-platform/)
   - [x] Submit a pull request or patch upstream that adds snap install documentation - [link](https://github.com/mattermost/docs/pull/1138)
-  - [ ] Submit a pull request or patch upstream that adds the `snapcraft.yaml` and any required assets/launchers - [link]()
-  - [ ] Add upstream contact information to the `README.md`  
+  - [-] Submit a pull request or patch upstream that adds the `snapcraft.yaml` and any required assets/launchers
+  - [ ] Add upstream contact information to the `README.md`
   - If upstream accept the PR:
     - [ ] Request upstream create a Snap store account
     - [ ] Contact the Snap Advocacy team to request the snap be transferred to upstream
