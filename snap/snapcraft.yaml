@@ -20,7 +20,7 @@ parts:
     source:
       - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-amd64.deb
       - on i386: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-i386.deb
-      - on amd64: fail
+      - on arm64: fail
       - on armhf: fail
     source-type: deb
     # Correct path to icon.
