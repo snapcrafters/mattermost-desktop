@@ -47,6 +47,7 @@ apps:
     # libappindicator has readable resources.
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
+      XDG_CURRENT_DESKTOP: Unity
     plugs:
       - bluez
       - browser-support
