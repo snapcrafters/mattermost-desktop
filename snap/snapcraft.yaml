@@ -38,7 +38,7 @@ parts:
       - libpulse0
       - libxss1
       - libxtst6
-
+      - gtk2-engines-pixbuf   # Workaround to support common gtk2 themes
 apps:
   mattermost-desktop:
     command: bin/desktop-launch $SNAP/opt/Mattermost/mattermost-desktop
@@ -64,3 +64,19 @@ apps:
       - unity7
       - wayland
       - x11
+
+# Support for system themes:
+# https://forum.snapcraft.io/t/how-to-use-the-system-gtk-theme-via-the-gtk-common-themes-snap/6235
+plugs:
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/usr/share/themes
+    default-provider: gtk-common-themes:gtk-3-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/usr/share/icons
+    default-provider: gtk-common-themes:icon-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/usr/share/sounds
+    default-provider: gtk-common-themes:sounds-themes
