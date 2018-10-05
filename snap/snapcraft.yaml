@@ -11,6 +11,10 @@ description: |
   To use this app, you need a URL for a Mattermost server.
 grade: stable
 confinement: strict
+architectures:
+  - build-on: amd64
+  - build-on: i386
+
 # Point the following path to the original icons directory if/when this gets
 # merged with the mattermost desktop repo.
 icon: mattermost-desktop.png
@@ -20,8 +24,6 @@ parts:
     source:
       - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-amd64.deb
       - on i386: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-i386.deb
-      - on arm64: fail
-      - on armhf: fail
     source-type: deb
     # Correct path to icon.
     override-build: |
