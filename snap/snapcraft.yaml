@@ -30,7 +30,7 @@ parts:
       snapcraftctl build
       sed -i 's|Icon=mattermost-desktop|Icon=\${SNAP}/meta/gui/icon.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     after:
-      - desktop-gtk2
+      - desktop-gtk3
     stage-packages:
       - libasound2
       - libgconf2-4
