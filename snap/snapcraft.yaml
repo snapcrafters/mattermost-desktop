@@ -9,16 +9,53 @@ description: |
   - Connect in-house systems with webhooks and Slack-compatible integrations
 
   To use this app, you need a URL for a Mattermost server.
+
 grade: stable
 confinement: strict
+
 architectures:
   - build-on: amd64
   - build-on: i386
 
-# Point the following path to the original icons directory if/when this gets
-# merged with the mattermost desktop repo.
-icon: mattermost-desktop.png
+plugs:
+  gnome-3-26-1604:
+    interface: content
+    target: $SNAP/gnome-platform
+    default-provider: gnome-3-26-1604
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
 parts:
+  gnome:
+    plugin: nil
+    override-pull: |
+      add-apt-repository -y ppa:ubuntu-desktop/gnome-3-26
+      apt -y update
+      apt -y upgrade
+
+  libappindicator:
+    plugin: nil
+    after:
+      - gnome
+    stage-packages:
+      - libappindicator3-1
+    build-attributes:
+      - no-system-libraries
+    prime:
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libdbusmenu*.so*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libappindicator*.so*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libindicator*.so*
+
   mattermost-desktop:
     plugin: dump
     source:
@@ -28,28 +65,35 @@ parts:
     # Correct path to icon.
     override-build: |
       snapcraftctl build
-      sed -i 's|Icon=mattermost-desktop|Icon=\${SNAP}/meta/gui/icon.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
+      # Correct the Icon path
+      sed -i 's|Icon=mattermost-desktop|Icon=${SNAP}/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     after:
-      - desktop-gtk3
+      - gnome
+      - desktop-gnome-platform
+      - libappindicator
+    build-attributes:
+      - no-system-libraries
     stage-packages:
       - libasound2
       - libgconf2-4
-      - libnotify4
       - libnspr4
       - libnss3
-      - libpulse0
       - libxss1
-      - libxtst6
-      - gtk2-engines-pixbuf   # Workaround to support common gtk2 themes
+
 apps:
   mattermost-desktop:
     command: bin/desktop-launch $SNAP/opt/Mattermost/mattermost-desktop
     desktop: usr/share/applications/mattermost-desktop.desktop
-    # Correct the TMPDIR path for Chromium Framework/Electron to ensure
-    # libappindicator has readable resources.
     environment:
+      # Correct the TMPDIR path for Chromium Framework/Electron to
+      # ensure libappindicator has readable resources
       TMPDIR: $XDG_RUNTIME_DIR
+      # Coerce XDG_CURRENT_DESKTOP to Unity so that App Indicators
+      # are used and do not fall back to Notification Area applets
+      # or disappear completely.
       XDG_CURRENT_DESKTOP: Unity
+      # Fallback to XWayland if running in a Wayland session.
+      DISABLE_WAYLAND: 1
     plugs:
       - bluez
       - browser-support
@@ -66,19 +110,3 @@ apps:
       - unity7
       - wayland
       - x11
-
-# Support for system themes:
-# https://forum.snapcraft.io/t/how-to-use-the-system-gtk-theme-via-the-gtk-common-themes-snap/6235
-plugs:
-  gtk-3-themes:
-    interface: content
-    target: $SNAP/data-dir/themes
-    default-provider: gtk-common-themes
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
-  sound-themes:
-    interface: content
-    target: $SNAP/data-dir/sounds
-    default-provider: gtk-common-themes
