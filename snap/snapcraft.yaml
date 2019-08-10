@@ -76,6 +76,8 @@ parts:
       - libnspr4
       - libnss3
       - libxss1
+      - libx11-xcb1
+      - libxtst6
 
 apps:
   mattermost-desktop:
