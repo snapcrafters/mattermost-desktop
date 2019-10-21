@@ -62,12 +62,14 @@ parts:
       - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-amd64.deb
       - on i386: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-i386.deb
     source-type: deb
+    prime:
+      - -opt/Mattermost/chrome-sandbox
     # Correct path to icon.
     override-build: |
       snapcraftctl build
       # Correct the Icon path
       sed -i 's|Icon=mattermost-desktop|Icon=${SNAP}/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
-      chmod -s opt/Mattermost/chrome-sandbox
+      sed -i 's|%U|--no-sandbox %U|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     after:
       - desktop-gnome-platform
       - libappindicator
