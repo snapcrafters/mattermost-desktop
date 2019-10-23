@@ -67,12 +67,6 @@ parts:
     source-type: deb
     prime:
       - -opt/Mattermost/chrome-sandbox
-    # Correct path to icon.
-    override-build: |
-      snapcraftctl build
-      # Correct the Icon path
-      sed -i 's|Icon=mattermost-desktop|Icon=${SNAP}/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
-      sed -i 's|%U|--no-sandbox %U|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     after:
       - desktop-gnome-platform
       - libappindicator
@@ -87,8 +81,8 @@ parts:
 
 apps:
   mattermost-desktop:
-    command: bin/desktop-launch $SNAP/opt/Mattermost/mattermost-desktop
-    desktop: usr/share/applications/mattermost-desktop.desktop
+    command: bin/desktop-launch $SNAP/opt/Mattermost/mattermost-desktop --no-sandbox
+    #desktop: usr/share/applications/mattermost-desktop.desktop
     environment:
       # Correct the TMPDIR path for Chromium Framework/Electron to
       # ensure libappindicator has readable resources
