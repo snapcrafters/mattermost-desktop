@@ -33,6 +33,7 @@ parts:
       - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libindicator*.so*
 
   mattermost-desktop:
+    after: [libappindicator]
     plugin: dump
     source:
       - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-amd64.deb
@@ -40,8 +41,6 @@ parts:
     source-type: deb
     prime:
       - -opt/Mattermost/chrome-sandbox
-    after:
-      - libappindicator
     stage-packages:
       - libnspr4
       - libnss3
