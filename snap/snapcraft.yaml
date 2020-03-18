@@ -50,6 +50,12 @@ parts:
       - libxss1
   cleanup:
     after: [mattermost-desktop]
+    plugin: nil
+    build-snaps: [ gnome-3-28-1804 ]
+    override-prime: |
+        set -eux
+        cd /snap/gnome-3-28-1804/current
+        find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
 
 apps:
   mattermost-desktop:
