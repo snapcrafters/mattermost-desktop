@@ -39,6 +39,9 @@ parts:
       - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-amd64.deb
       - on i386: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-i386.deb
     source-type: deb
+    override-build: |
+      snapcraftctl build
+      sed -i 's|Icon=mattermost-desktop|Icon=/usr/share/icons/hicolor/256x256/apps/mattermost-desktop\.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     prime:
       - -opt/Mattermost/chrome-sandbox
     stage-packages:
@@ -52,6 +55,8 @@ apps:
   mattermost-desktop:
     extensions: [gnome-3-28]
     command: opt/Mattermost/mattermost-desktop --no-sandbox
+    desktop: usr/share/applications/mattermost-desktop.desktop
+    autostart: mattermost-desktop.desktop
     environment:
       # Correct the TMPDIR path for Chromium Framework/Electron to
       # ensure libappindicator has readable resources
