@@ -77,9 +77,11 @@ apps:
       - browser-support
       - gsettings
       - home
+      - login-session-observe
       - network
       - network-bind
       - opengl
       - pulseaudio
       - removable-media
+      - screen-inhibit-control
       - unity7
