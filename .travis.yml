@@ -11,7 +11,7 @@ env:
 addons:
   snaps:
     - name: snapcraft
-      channel: edge/pr-3240
+      channel: candidate
       classic: true
     - name: http
     - name: transfer
