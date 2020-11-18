@@ -81,3 +81,4 @@ apps:
       - removable-media
       - screen-inhibit-control
       - unity7
+      - camera
