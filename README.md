@@ -14,6 +14,7 @@
 
     snap install mattermost-desktop
     sudo snap connect mattermost-desktop:removable-media
+    sudo snap connect mattermost-desktop:process-control
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 

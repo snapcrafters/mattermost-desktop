@@ -85,3 +85,4 @@ apps:
       - screen-inhibit-control
       - unity7
       - camera
+      - process-control
