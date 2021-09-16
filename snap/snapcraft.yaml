@@ -1,6 +1,6 @@
 name: mattermost-desktop
-version: 4.7.0
-base: core18
+version: 4.7.2
+base: core20
 summary: Open source, private cloud Slack-alternative
 description: |
   Mattermost is secure workplace messaging from behind your firewall.
@@ -52,16 +52,16 @@ parts:
   cleanup:
     after: [mattermost-desktop]
     plugin: nil
-    build-snaps: [ gnome-3-28-1804 ]
+    build-snaps: [ gnome-3-38-2004 ]
     override-prime: |
         set -eux
-        cd /snap/gnome-3-28-1804/current
+        cd /snap/gnome-3-38-2004/current
         find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
 
 apps:
   mattermost-desktop:
-    extensions: [gnome-3-28]
-    command: opt/Mattermost/mattermost-desktop --no-sandbox
+    extensions: [gnome-3-38]
+    command: opt/Mattermost/mattermost-desktop
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
     environment:
