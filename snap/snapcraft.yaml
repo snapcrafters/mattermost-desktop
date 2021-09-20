@@ -71,7 +71,7 @@ apps:
       # Fallback to XWayland if running in a Wayland session.
       DISABLE_WAYLAND: 1
     plugs:
-      - browser-support
+      - browser-sandbox
       - gsettings
       - home
       - login-session-observe
@@ -85,3 +85,8 @@ apps:
       - screen-inhibit-control
       - unity7
       - camera
+
+plugs:
+  browser-sandbox:
+    interface: browser-support
+    allow-sandbox: true
