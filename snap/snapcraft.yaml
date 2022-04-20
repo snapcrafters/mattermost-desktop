@@ -71,6 +71,7 @@ apps:
       # Fallback to XWayland if running in a Wayland session.
       DISABLE_WAYLAND: 1
     plugs:
+      - shmem
       - browser-support
       - gsettings
       - home
