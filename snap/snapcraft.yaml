@@ -61,7 +61,7 @@ parts:
 apps:
   mattermost-desktop:
     extensions: [gnome-3-38]
-    command: opt/Mattermost/mattermost-desktop
+    command: opt/Mattermost/mattermost-desktop --no-sandbox
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
     environment:
