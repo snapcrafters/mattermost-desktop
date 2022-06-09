@@ -1,5 +1,5 @@
 name: mattermost-desktop
-version: 5.0.2
+version: 5.1.0
 base: core20
 summary: Open source, private cloud Slack-alternative
 description: |
@@ -17,7 +17,6 @@ compression: lzo
 
 architectures:
   - build-on: amd64
-  - build-on: i386
 
 parts:
   bsi-trigger: # A non-built part, only used to trigger builds in build.snapcraft.io on upstream changes
@@ -37,8 +36,7 @@ parts:
     after: [libappindicator]
     plugin: dump
     source:
-      - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-amd64.deb
-      - on i386: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop-$SNAPCRAFT_PROJECT_VERSION-linux-i386.deb
+      - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
     source-type: deb
     override-build: |
       snapcraftctl build
@@ -52,16 +50,16 @@ parts:
   cleanup:
     after: [mattermost-desktop]
     plugin: nil
-    build-snaps: [ gnome-3-38-2004 ]
+    build-snaps: [gnome-3-38-2004]
     override-prime: |
-        set -eux
-        cd /snap/gnome-3-38-2004/current
-        find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
+      set -eux
+      cd /snap/gnome-3-38-2004/current
+      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
 
 apps:
   mattermost-desktop:
     extensions: [gnome-3-38]
-    command: opt/Mattermost/mattermost-desktop
+    command: opt/Mattermost/mattermost-desktop --no-sandbox --disable-seccomp-filter-sandbox
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
     environment:
@@ -71,6 +69,7 @@ apps:
       # Fallback to XWayland if running in a Wayland session.
       DISABLE_WAYLAND: 1
     plugs:
+      - shmem
       - browser-support
       - gsettings
       - home
@@ -85,3 +84,8 @@ apps:
       - screen-inhibit-control
       - unity7
       - camera
+
+plugs:
+  shmem:
+    interface: shared-memory
+    private: true
