@@ -68,7 +68,6 @@ apps:
       TMPDIR: $XDG_RUNTIME_DIR
     plugs:
       - shmem
-      - browser-support
       - gsettings
       - home
       - login-session-observe
