@@ -54,10 +54,10 @@ parts:
   cleanup:
     after: [mattermost-desktop]
     plugin: nil
-    build-snaps: [gnome-42-2204-sdk]
+    build-snaps: [gnome-42-2204]
     override-prime: |
       set -eux
-      cd /snap/gnome-42-2204-sdk/current
+      cd /snap/gnome-42-2204/current
       find . -type f,l -exec rm -f $CRAFT_PRIME/{} \;
 
 apps:
