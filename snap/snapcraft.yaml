@@ -1,6 +1,6 @@
 name: mattermost-desktop
 version: 5.1.1
-base: core20
+base: core22
 summary: Open source, private cloud Slack-alternative
 description: |
   Mattermost is secure workplace messaging from behind your firewall.
@@ -28,19 +28,23 @@ parts:
     stage-packages:
       - libappindicator3-1
     prime:
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libdbusmenu*.so*
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libappindicator*.so*
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libindicator*.so*
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libdbusmenu*.so*
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libappindicator*.so*
+      - usr/lib/$CRAFT_ARCH_TRIPLET/libindicator*.so*
 
   mattermost-desktop:
     after: [libappindicator]
-    plugin: dump
-    source:
-      - on amd64: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
-    source-type: deb
+    plugin: nil
+    # TODO(jnsgruk): Reenable the dump plugin once snapcraft 7.1.0 supports the deb source type again
+    # plugin: dump
+    # source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
+    # source-type: deb
+    build-packages: [wget, ca-certificates]
     override-build: |
-      snapcraftctl build
-      sed -i 's|Icon=mattermost-desktop|Icon=/usr/share/icons/hicolor/256x256/apps/mattermost-desktop\.png|' ${SNAPCRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
+      # craftctl default
+      wget -qO mattermost.deb https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
+      dpkg-deb -xv mattermost.deb $CRAFT_PART_INSTALL/
+      sed -i 's|Icon=mattermost-desktop|Icon=/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${CRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     prime:
       - -opt/Mattermost/chrome-sandbox
     stage-packages:
@@ -50,15 +54,15 @@ parts:
   cleanup:
     after: [mattermost-desktop]
     plugin: nil
-    build-snaps: [gnome-3-38-2004]
+    build-snaps: [gnome-42-2204-sdk]
     override-prime: |
       set -eux
-      cd /snap/gnome-3-38-2004/current
-      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
+      cd /snap/gnome-42-2204-sdk/current
+      find . -type f,l -exec rm -f $CRAFT_PRIME/{} \;
 
 apps:
   mattermost-desktop:
-    extensions: [gnome-3-38]
+    extensions: [gnome]
     command: opt/Mattermost/mattermost-desktop --no-sandbox --disable-seccomp-filter-sandbox
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
