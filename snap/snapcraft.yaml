@@ -24,16 +24,12 @@ parts:
     source: https://github.com/mattermost/desktop.git
 
   mattermost-desktop:
-    plugin: nil
-    # TODO(jnsgruk): Reenable the dump plugin once snapcraft 7.1.0 supports the deb source type again
-    # plugin: dump
-    # source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
-    # source-type: deb
+    plugin: dump
+    source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
+    source-type: deb
     build-packages: [wget, ca-certificates]
     override-build: |
-      # craftctl default
-      wget -qO mattermost.deb https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
-      dpkg-deb -xv mattermost.deb $CRAFT_PART_INSTALL/
+      craftctl default
       sed -i 's|Icon=mattermost-desktop|Icon=/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${CRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     prime:
       - -opt/Mattermost/chrome-sandbox
