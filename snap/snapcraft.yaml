@@ -37,6 +37,7 @@ parts:
       - libnspr4
       - libnss3
       - libxss1
+      - libappindicator3-1
   cleanup:
     after: [mattermost-desktop]
     plugin: nil
@@ -44,7 +45,7 @@ parts:
     override-prime: |
       set -eux
       cd /snap/gnome-42-2204/current
-      find . -type f,l -exec rm -f $CRAFT_PRIME/{} \;
+      find . -type f,l \( ! -iname "*appindicator3.so*" \) -print -exec rm -f $CRAFT_PRIME/{} \;
 
 apps:
   mattermost-desktop:
