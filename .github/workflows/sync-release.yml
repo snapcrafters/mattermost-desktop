@@ -33,6 +33,6 @@ jobs:
         if: steps.git-check.outputs.modified == 'true'
         run: |
           git config --global user.name 'Ken VanDine'
-          git config --global user.email 'ken@vandine.org'
+          git config --global user.email 'ken.vandine@canonical.com'
           git commit -am "Automatic sync to latest release"
           git push
