@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# In some cases, the mattermost-desktop client does not pick
+# up the correct "default" download directory. There has been
+# an upstream change that will fix this, and enable the client
+# to choose $XDG_DOWNLOAD_DIR when it is set.
+#
+# This tries to catch the "obviously broken" state, where the 
+# download directory ends up somewhere potentially unwritable.
+# Where this is the case, the client just silently fails to save
+# downloads. This mod should reset the default to the user's 
+# home directory, where at least the files should be writable
+#
+# In the case where the config is yet to be created (fresh install)
+# we write a simple config with a "likely" workable path.
+
+CONFIG_PATH="${SNAP_USER_DATA}/.config/Mattermost/config.json"
+
+# Try to get the download dir from xdg-user-dirs
+DOWNLOAD_DIR="$(xdg-user-dir DOWNLOAD)"
+
+# If that was unsuccessful, try some obvious other locations that could exist
+if [[ -z "$DOWNLOAD_DIR" ]]; then
+    if [[ -n "$XDG_DOWNLOAD_DIR" ]]; then
+        DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR}"
+    elif [[ -d "${SNAP_REAL_HOME}/Downloads" ]]; then
+        DOWNLOAD_DIR="${SNAP_REAL_HOME}/Downloads"
+    elif [[ -d "${SNAP_REAL_HOME}/downloads" ]]; then
+        DOWNLOAD_DIR="${SNAP_REAL_HOME}/downloads"
+    else
+        DOWNLOAD_DIR="${SNAP_REAL_HOME}"
+    fi
+fi
+
+# Check if there is already a config file (upgrade)
+if [[ -f "$CONFIG_PATH" ]]; then
+    # Check for a likely broken path and replace if needed
+    if grep "downloadLocation" "$CONFIG_PATH" | grep -q "snap/mattermost-desktop"; then
+        sed -i -E "s|downloadLocation.*$|downloadLocation\": \"$DOWNLOAD_DIR\",|g" "$CONFIG_PATH"
+    fi
+else
+    # No config file exists, so write a sensible default downloadLocation into a new config
+    mkdir -p "${SNAP_USER_DATA}/.config/Mattermost"
+    echo "{\"version\": 3, \"downloadLocation\": \"$DOWNLOAD_DIR\"}" > "$CONFIG_PATH"
+fi
+
+exec "$@"

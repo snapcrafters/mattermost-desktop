@@ -45,10 +45,16 @@ parts:
       set -eux
       cd /snap/gnome-42-2204/current
       find . -type f,l -exec rm -f $CRAFT_PRIME/{} \;
+  local-parts:
+    plugin: dump
+    source: snap/local
+    source-type: local
+    after: [cleanup]
 
 apps:
   mattermost-desktop:
     extensions: [gnome]
+    command-chain: [opt/Mattermost/fix-default-download-dir]
     command: opt/Mattermost/mattermost-desktop --no-sandbox --disable-seccomp-filter-sandbox
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
