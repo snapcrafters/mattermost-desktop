@@ -1,5 +1,5 @@
 name: mattermost-desktop
-version: 5.2.2
+version: 5.3.1
 base: core22
 summary: Open source, private cloud Slack-alternative
 description: |
