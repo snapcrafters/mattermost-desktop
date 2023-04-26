@@ -23,6 +23,12 @@ parts:
     plugin: nil
     source: https://github.com/mattermost/desktop.git
 
+  launcher:
+    plugin: dump
+    source: launcher
+    override-build: |
+      cp launcher $CRAFT_PART_INSTALL/
+
   mattermost-desktop:
     plugin: dump
     source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_amd64.deb
@@ -55,7 +61,7 @@ apps:
   mattermost-desktop:
     extensions: [gnome]
     command-chain: [opt/Mattermost/fix-default-download-dir]
-    command: opt/Mattermost/mattermost-desktop --no-sandbox --disable-seccomp-filter-sandbox
+    command: launcher
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
     environment:
