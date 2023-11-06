@@ -20,10 +20,6 @@ architectures:
   - build-on: arm64
 
 parts:
-  bsi-trigger: # A non-built part, only used to trigger builds in build.snapcraft.io on upstream changes
-    plugin: nil
-    source: https://github.com/mattermost/desktop.git
-
   mattermost-desktop:
     plugin: dump
     source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_$SNAPCRAFT_TARGET_ARCH.deb
