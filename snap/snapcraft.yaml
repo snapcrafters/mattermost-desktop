@@ -19,6 +19,7 @@ architectures:
   - build-on: amd64
   - build-on: arm64
 
+parts:
   mattermost-desktop:
     plugin: dump
     source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_$SNAPCRAFT_TARGET_ARCH.deb
