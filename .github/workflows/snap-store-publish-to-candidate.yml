@@ -1,0 +1,98 @@
+name: 📦 Publish to candidate
+
+on:
+  # Run the workflow each time new commits are pushed to the candidate branch. 
+  push:
+    branches: [ "candidate" ]
+  # Allow the workflow to be started manually from the Actions tab.
+  workflow_dispatch:
+  # Allow the workflow to be started by another workflow.
+  workflow_call:
+    secrets:
+      SNAP_STORE_CANDIDATE:
+        required: true
+      LP_BUILD_SECRET:
+        required: true
+
+# Permissions for GITHUB_TOKEN
+permissions:
+  contents: read
+  issues: write
+
+env:
+  # Use the name of the repo as the name of the snap
+  SNAP_NAME: ${{ github.event.repository.name }}
+  # Hardcoded git branch and Snap Store channel channel
+  CHANNEL: 'candidate'
+
+jobs:
+  build:
+    name: "Build & publish"
+    environment: "Candidate Branch"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        architecture: ['amd64', 'arm64']
+    steps:
+      - name: Checkout the source
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.CHANNEL }}
+
+      - name: Setup snapcraft
+        env:
+          LP_BUILD_SECRET: ${{ secrets.LP_BUILD_SECRET }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAP_STORE_CANDIDATE }}
+        run: |
+          sudo snap install snapcraft --classic
+          
+          # Setup Launchpad credentials
+          mkdir -p ~/.local/share/snapcraft/provider/launchpad
+          echo "$LP_BUILD_SECRET" > ~/.local/share/snapcraft/provider/launchpad/credentials
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "Github Actions"
+
+      - name: Remote build the snap
+        id: build
+        env:
+          ARCHITECTURE: ${{ matrix.architecture }}
+        run : |
+          snapcraft remote-build --launchpad-accept-public-upload --build-for=${ARCHITECTURE}
+
+          version="$(cat snap/snapcraft.yaml | yq -r '.version')"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "snap=mattermost-desktop_${version}_${ARCHITECTURE}.snap" >> "$GITHUB_OUTPUT"
+
+      - name: Review the built snap
+        uses: diddlesnaps/snapcraft-review-action@v1
+        with:
+          snap: ${{ steps.build.outputs.snap }}
+          isClassic: 'false'
+
+      - name: Publish the built snap
+        id: publish
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAP_STORE_CANDIDATE }}
+          SNAP_NAME: ${{ steps.build.outputs.snap }}
+          ARCHITECTURE: ${{ matrix.architecture }}
+        run: |
+          rev=$(snapcraft push $SNAP_NAME --release=$CHANNEL)
+          echo "revision_${ARCHITECTURE}=${rev}" >> $GITHUB_OUTPUT
+    outputs: 
+      revision_amd64: ${{ steps.publish.outputs.revision_amd64 }}
+      revision_arm64: ${{ steps.publish.outputs.revision_arm64 }}
+      version: ${{ steps.build.outputs.version }}
+  create_issue:
+    name: "Create call for testing"
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          revision_amd64: ${{ needs.build.outputs.revision_amd64 }}
+          revision_arm64: ${{ needs.build.outputs.revision_arm64 }}
+          version: ${{ needs.build.outputs.version }}
+        with:
+          filename: .github/testing-issue-template.md
