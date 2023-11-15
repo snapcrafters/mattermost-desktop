@@ -1,7 +1,9 @@
 name: mattermost-desktop
+title: Mattermost Desktop
+license: MIT
 version: 5.5.1
 base: core22
-summary: Open source, private cloud Slack-alternative
+summary: A secure, flexible platform build for the new era of collaboration
 description: |
   Mattermost is secure workplace messaging from behind your firewall.
 
@@ -9,7 +11,20 @@ description: |
   - Easily share and view image files
   - Connect in-house systems with webhooks and Slack-compatible integrations
 
+  For technical and operations teams who execute high-stakes, collaborative workflows,
+  Mattermost provides integrated team messaging, audio and screen share, workflow automation
+  and project management. Governments, banks and tech giants use our secure collaboration platform
+  to reduce risk and error rates while accelerating technical productivity.
+
   To use this app, you need a URL for a Mattermost server.
+
+  This snap is maintained by the Snapcrafters community, and is not necessarily endorsed or
+  officially maintained by the upstream developers.
+website: https://mattermost.com/
+contact: https://github.com/snapcrafters/mattermost-desktop/issues
+issues: https://github.com/snapcrafters/mattermost-desktop/issues
+source-code: https://github.com//snapcrafters/mattermost-desktop
+icon: snap/gui/mattermost-desktop.png
 
 grade: stable
 confinement: strict
