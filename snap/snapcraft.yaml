@@ -1,4 +1,6 @@
 name: mattermost-desktop
+title: Mattermost Desktop
+license: MIT
 version: 5.5.1
 base: core22
 summary: A secure, flexible platform build for the new era of collaboration
@@ -15,6 +17,9 @@ description: |
   to reduce risk and error rates while accelerating technical productivity.
 
   To use this app, you need a URL for a Mattermost server.
+
+  This snap is maintained by the Snapcrafters community, and is not necessarily endorsed or
+  officially maintained by the upstream developers.
 website: https://mattermost.com/
 contact: https://github.com/snapcrafters/mattermost-desktop/issues
 issues: https://github.com/snapcrafters/mattermost-desktop/issues
