@@ -24,6 +24,7 @@ website: https://mattermost.com/
 contact: https://github.com/snapcrafters/mattermost-desktop/issues
 issues: https://github.com/snapcrafters/mattermost-desktop/issues
 source-code: https://github.com//snapcrafters/mattermost-desktop
+icon: snap/gui/mattermost-desktop.png
 
 grade: stable
 confinement: strict
