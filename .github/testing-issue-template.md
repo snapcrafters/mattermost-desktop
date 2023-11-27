@@ -5,12 +5,13 @@ labels: testing
 
 A new version ({{ env.version }}) of `{{ env.SNAP_NAME }}` was just pushed to the `{{ env.CHANNEL }}` channel [in the snap store](https://snapcraft.io/{{ env.SNAP_NAME }}). The following revisions are available.
 
-| CPU architecture | Revision                 |
-|------------------|--------------------------|
-| amd64            | {{ env.revision_amd64 }} |
-| arm64            | {{ env.revision_arm64 }} |
+{{ env.table }}
 
-## How to test it
+## Automated screenshots
+
+The snap will be installed in a VM automatically; screenshots will be posted as a comment on this issue shortly.
+
+## How to test it manually
 
 1. Stop the application if it was already running
 1. Upgrade to this version by running
@@ -32,6 +33,12 @@ Maintainers can promote this to stable by commenting `/promote <rev>[,<rev>] sta
 
 > For example
 >
-> * To promote a single revision, run `/promote 34 stable`
-> * To promote multiple revisions, run `/promote 34,35 stable`
-> * To promote a revision and close the issue, run `/promote 34,35 stable done`
+> - To promote a single revision, run `/promote <rev> stable`
+> - To promote multiple revisions, run `/promote <rev>,<rev> stable`
+> - To promote a revision and close the issue, run `/promote <rev>,<rev> stable done`
+
+You can promote all revisions that were just built with:
+
+```
+/promote {{ env.revisions }} stable done
+```
