@@ -35,6 +35,11 @@ architectures:
  - arm64
 
 parts:
+  launcher:
+    plugin: dump
+    source: launcher
+    override-build: |
+      cp launcher $CRAFT_PART_INSTALL/
   mattermost-desktop:
     plugin: dump
     source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_$SNAPCRAFT_TARGET_ARCH.deb
@@ -49,9 +54,6 @@ parts:
       - libnspr4
       - libnss3
       - libxss1
-  launcher:
-    plugin: dump
-    source: launcher
   cleanup:
     after: [mattermost-desktop]
     plugin: nil
