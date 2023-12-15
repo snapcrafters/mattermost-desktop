@@ -49,6 +49,9 @@ parts:
       - libnspr4
       - libnss3
       - libxss1
+  launcher:
+    plugin: dump
+    source: launcher
   cleanup:
     after: [mattermost-desktop]
     plugin: nil
