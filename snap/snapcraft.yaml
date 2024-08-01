@@ -2,7 +2,7 @@ name: mattermost-desktop
 title: Mattermost Desktop
 license: MIT
 version: 5.8.1
-base: core22
+base: core24
 summary: A secure, flexible platform build for the new era of collaboration
 description: |
   Mattermost is secure workplace messaging from behind your firewall.
@@ -30,38 +30,25 @@ grade: stable
 confinement: strict
 compression: lzo
 
-architectures:
- - amd64
- - arm64
+platforms:
+  amd64:
+  arm64:
 
 parts:
   mattermost-desktop:
     plugin: dump
-    source: https://releases.mattermost.com/desktop/$SNAPCRAFT_PROJECT_VERSION/mattermost-desktop_$SNAPCRAFT_PROJECT_VERSION-1_$SNAPCRAFT_TARGET_ARCH.deb
+    source: https://releases.mattermost.com/desktop/${SNAPCRAFT_PROJECT_VERSION}/mattermost-desktop_${SNAPCRAFT_PROJECT_VERSION}-1_${CRAFT_ARCH_BUILD_ON}.deb
     source-type: deb
-    build-packages: [wget, ca-certificates]
     override-build: |
       craftctl default
       sed -i 's|Icon=mattermost-desktop|Icon=/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${CRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
     prime:
       - -opt/Mattermost/chrome-sandbox
-    stage-packages:
-      - libnspr4
-      - libnss3
-      - libxss1
-  cleanup:
-    after: [mattermost-desktop]
-    plugin: nil
-    build-snaps: [gnome-42-2204]
-    override-prime: |
-      set -eux
-      cd /snap/gnome-42-2204/current
-      find . -type f,l -exec rm -f $CRAFT_PRIME/{} \;
+
   local-parts:
     plugin: dump
     source: snap/local
     source-type: local
-    after: [cleanup]
 
 apps:
   mattermost-desktop:
@@ -76,12 +63,10 @@ apps:
       TMPDIR: $XDG_RUNTIME_DIR
     plugs:
       - shmem
-      - gsettings
       - home
       - login-session-observe
       - network
       - network-bind
-      - opengl
       - pulseaudio
       - audio-playback
       - audio-record
