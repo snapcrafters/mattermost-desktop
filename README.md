@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://dashboard.snapcraft.io/site_media/appmedia/2017/04/mattermost-desktop.png" alt="Mattermost Desktop">
+    <img width="140" alt="Image" src="https://github.com/user-attachments/assets/1e7994c9-f379-43c1-9a5b-a44db89cd561"      alt="Mattermost Desktop">
   <br />
   Mattermost Desktop
 </h1>
