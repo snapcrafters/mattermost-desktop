@@ -54,7 +54,7 @@ apps:
   mattermost-desktop:
     extensions: [gnome]
     command-chain: [opt/Mattermost/fix-default-download-dir]
-    command: opt/Mattermost/mattermost-desktop --no-sandbox --disable-seccomp-filter-sandbox
+    command: launcher.sh
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
     environment:
