@@ -61,7 +61,6 @@ apps:
       # Correct the TMPDIR path for Chromium Framework/Electron to
       # ensure libappindicator has readable resources
       TMPDIR: $XDG_RUNTIME_DIR
-      DISABLE_WAYLAND: 1
     plugs:
       - shmem
       - home
