@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Since v6.0.0, Mattermost Desktop fails to launch on machines
+# that do not support hardware acceleration.
+#
+# The issue was reported upstream:
+# https://github.com/mattermost/desktop/issues/3559
+#
+# The Mattermost configuration file can be adjusted to disable
+# hardware acceleration, which enables the app to start.
+#
+# This script attempts to detect cases where there is unlikely
+# to be adequate hardware acceleration, and either updates an
+# existing configuration file or creates a new one with the
+# appropriate setting.
+
+CONFIG_PATH="${SNAP_USER_DATA}/.config/Mattermost/config.json"
+
+# If the rendering device string is 'llvmpipe' then it's likely that the
+# app will crash with hardware acceleration enabled.
+if glxinfo | grep -q llvmpipe; then
+    # Disable hardware acceleration in the configuration file.
+    if [[ -f "$CONFIG_PATH" ]]; then
+        jq '.enableHardwareAcceleration = false' "$CONFIG_PATH" > "$CONFIG_PATH.tmp"
+        mv "$CONFIG_PATH.tmp" "$CONFIG_PATH"
+    fi
+fi
+
+exec "$@"

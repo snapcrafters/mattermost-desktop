@@ -36,7 +36,8 @@ fi
 if [[ -f "$CONFIG_PATH" ]]; then
     # Check for a likely broken path and replace if needed
     if grep "downloadLocation" "$CONFIG_PATH" | grep -q "snap/mattermost-desktop"; then
-        sed -i -E "s|downloadLocation.*$|downloadLocation\": \"$DOWNLOAD_DIR\",|g" "$CONFIG_PATH"
+        jq --arg p "$DOWNLOAD_DIR" '.downloadLocation = $p' "$CONFIG_PATH" > "$CONFIG_PATH.tmp"
+        mv "$CONFIG_PATH.tmp" "$CONFIG_PATH"
     fi
 else
     # No config file exists, so write a sensible default downloadLocation into a new config

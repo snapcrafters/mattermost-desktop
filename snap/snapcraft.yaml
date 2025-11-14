@@ -42,6 +42,10 @@ parts:
     override-build: |
       craftctl default
       sed -i 's|Icon=mattermost-desktop|Icon=/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${CRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
+    stage-packages:
+      # Needed for the fix-hardware-accel-with-no-renderer script
+      - mesa-utils
+      - jq
     prime:
       - -opt/Mattermost/chrome-sandbox
 
@@ -53,7 +57,9 @@ parts:
 apps:
   mattermost-desktop:
     extensions: [gnome]
-    command-chain: [opt/Mattermost/fix-default-download-dir]
+    command-chain:
+      - opt/Mattermost/fix-default-download-dir
+      - opt/Mattermost/fix-hardware-accel-with-no-renderer
     command: launcher.sh
     desktop: usr/share/applications/mattermost-desktop.desktop
     autostart: mattermost-desktop.desktop
