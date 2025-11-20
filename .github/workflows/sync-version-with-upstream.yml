@@ -23,6 +23,6 @@ jobs:
           token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
           update-script: |
             VERSION=$(curl -sL https://api.github.com/repos/mattermost/desktop/releases |\
-              jq . | grep tag_name | grep -v beta | grep -v rc | cut -d'"' -f4 | sort -r --version-sort | head -n1 | tr -d 'v'
+              jq -r 'sort_by(.published_at) | reverse | .[0].tag_name' | tr -d 'v'
             )
             sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml

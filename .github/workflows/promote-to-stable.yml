@@ -18,6 +18,15 @@ jobs:
       && contains(github.event.comment.body, '/promote ')
       && contains(github.event.*.labels.*.name, 'testing')
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Check version is not pre-release
+        run: |
+          if grep -qE '^version:.*(rc|beta|alpha)' snap/snapcraft.yaml; then
+            echo "Error: Cannot promote pre-release versions to stable"
+            exit 1
+          fi
+          echo "Version is stable, proceeding with promotion"
       - name: ⬆️ Promote to stable
         uses: snapcrafters/ci/promote-to-stable@main
         with:

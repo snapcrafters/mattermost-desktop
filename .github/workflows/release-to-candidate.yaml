@@ -15,6 +15,25 @@ permissions:
   issues: write
 
 jobs:
+  check-version:
+    name: 🔍 Check if pre-release version
+    runs-on: ubuntu-latest
+    outputs:
+      is-prerelease: ${{ steps.check.outputs.is-prerelease }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Check version
+        id: check
+        run: |
+          if awk '/^version:/ {print "Version:", $2; exit ($2 ~ /(rc|beta|alpha)/)}' snap/snapcraft.yaml; then
+            echo "is-prerelease=false" >> $GITHUB_OUTPUT
+            echo "This is a stable version"
+          else
+            echo "is-prerelease=true" >> $GITHUB_OUTPUT
+            echo "This is a pre-release version"
+          fi
+
   get-architectures:
     name: 🖥 Get snap architectures
     runs-on: ubuntu-latest
@@ -45,7 +64,8 @@ jobs:
   
   call-for-testing:
     name: 📣 Create call for testing
-    needs: [release, get-architectures]
+    needs: [release, get-architectures, check-version]
+    if: needs.check-version.outputs.is-prerelease == 'false'
     environment: "Candidate Branch"
     runs-on: ubuntu-latest
     outputs:
@@ -60,7 +80,8 @@ jobs:
   
   screenshots:
     name: 📸 Gather screenshots
-    needs: call-for-testing
+    needs: [call-for-testing, check-version]
+    if: needs.check-version.outputs.is-prerelease == 'false'
     environment: "Candidate Branch"
     runs-on: ubuntu-latest
     steps:
