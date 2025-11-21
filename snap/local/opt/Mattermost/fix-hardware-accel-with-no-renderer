@@ -18,7 +18,7 @@ CONFIG_PATH="${SNAP_USER_DATA}/.config/Mattermost/config.json"
 
 # If the rendering device string is 'llvmpipe' then it's likely that the
 # app will crash with hardware acceleration enabled.
-if glxinfo | grep -q llvmpipe; then
+if [[ "$(glxinfo)" =~ "llvmpipe" ]]; then
     # Disable hardware acceleration in the configuration file.
     if [[ -f "$CONFIG_PATH" ]]; then
         jq '.enableHardwareAcceleration = false' "$CONFIG_PATH" > "$CONFIG_PATH.tmp"
