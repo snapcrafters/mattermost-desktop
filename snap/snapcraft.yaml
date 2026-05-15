@@ -1,7 +1,7 @@
 name: mattermost-desktop
 title: Mattermost Desktop
 license: MIT
-version: 6.1.2
+version: 6.2.0
 base: core24
 summary: A secure, flexible platform build for the new era of collaboration
 description: |
