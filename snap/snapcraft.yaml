@@ -73,7 +73,6 @@ apps:
       - opt/Mattermost/fix-hardware-accel-with-no-renderer
     command: launcher.sh
     desktop: usr/share/applications/mattermost-desktop.desktop
-    autostart: mattermost-desktop.desktop
     environment:
       # Correct the TMPDIR path for Chromium Framework/Electron to
       # ensure libappindicator has readable resources
