@@ -41,7 +41,7 @@ parts:
     source-type: deb
     override-build: |
       craftctl default
-      sed -i 's|Icon=mattermost-desktop|Icon=/usr/share/icons/hicolor/256x256/apps/mattermost-desktop.png|' ${CRAFT_PART_INSTALL}/usr/share/applications/mattermost-desktop.desktop
+      sed -i 's|Icon=com.Mattermost.Desktop|Icon=/usr/share/icons/hicolor/256x256/apps/com.Mattermost.Desktop.png|' ${CRAFT_PART_INSTALL}/usr/share/applications/com.Mattermost.Desktop.desktop
     stage-packages:
       # Needed for the fix-hardware-accel-with-no-renderer script
       - mesa-utils
@@ -61,7 +61,7 @@ apps:
       - opt/Mattermost/fix-default-download-dir
       - opt/Mattermost/fix-hardware-accel-with-no-renderer
     command: launcher.sh
-    desktop: usr/share/applications/mattermost-desktop.desktop
+    desktop: usr/share/applications/com.Mattermost.Desktop.desktop
     environment:
       # Correct the TMPDIR path for Chromium Framework/Electron to
       # ensure libappindicator has readable resources
