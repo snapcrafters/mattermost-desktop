@@ -3,7 +3,7 @@ title: Mattermost Desktop
 license: MIT
 version: 6.4.0
 base: core24
-summary: A secure, flexible platform build for the new era of collaboration
+summary: A secure, flexible platform built for the new era of collaboration
 description: |
   Mattermost is secure workplace messaging from behind your firewall.
 
